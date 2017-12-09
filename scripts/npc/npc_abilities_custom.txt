@@ -70,4 +70,17 @@
 			}
 		}
     }
+	
+	"item_refresher_custom"
+	{
+		"ID"                            "1251" // anything above 1250 should be safe to use.
+        "BaseClass"                     "item_lua"
+		"AbilityTextureName"            "item_refresher"
+		"ScriptFile"                    "item/refresher_custom"
+		
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		
+		"AbilityCooldown"               "195"
+        "AbilityManaCost"               "1"
+	}
 }

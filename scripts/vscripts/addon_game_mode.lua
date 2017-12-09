@@ -42,6 +42,7 @@ function TuskArena:InitGameMode()
 	GameRules:SetStrategyTime(0)
 	GameRules:SetShowcaseTime(0)
 	GameRules:SetGoldPerTick(0)
+	GameMode:SetDaynightCycleDisabled(true)
 	--GameRules:SetHeroRespawnEnabled(false)
 	
 	ListenToGameEvent("npc_spawned", TuskArena.EquipUnit, self)
@@ -63,7 +64,7 @@ function TuskArena:EquipUnit(event)
 	local spawnedUnit = EntIndexToHScript( event.entindex )
 	AddAbilityIfNotExist(spawnedUnit, "fall_lua")
 	AddItemIfNotExist(spawnedUnit, "item_blink_custom")
-	AddItemIfNotExist(spawnedUnit, "item_refresher")
+	AddItemIfNotExist(spawnedUnit, "item_refresher_custom")
 end
 
 --adds an ability if the unit doesn't alreary have it
