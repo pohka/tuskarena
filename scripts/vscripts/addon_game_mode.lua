@@ -60,7 +60,7 @@ end
 function TuskArena:EquipUnit(event)
 	local spawnedUnit = EntIndexToHScript( event.entindex )
 	AddAbilityIfNotExist(spawnedUnit, "fall_lua")
-	AddItemIfNotExist(spawnedUnit, "item_blink")
+	AddItemIfNotExist(spawnedUnit, "item_blink_custom")
 	AddItemIfNotExist(spawnedUnit, "item_refresher")
 end
 

@@ -34,4 +34,17 @@
 		"AbilityCastAnimation"   	"ACT_DOTA_CAST_ABILITY_1"
 		"AnimationPlaybackRate"  	"1"
 	}
+	
+	"item_blink_custom"
+    {
+        "ID"                            "1250" // anything above 1250 should be safe to use.
+        "BaseClass"                     "item_lua"
+		"AbilityTextureName"            "item_blink"
+		"ScriptFile"                    "item/blink_custom"
+		
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		
+		"AbilityCooldown"               "12"
+        "AbilityManaCost"               "0"
+    }
 }
