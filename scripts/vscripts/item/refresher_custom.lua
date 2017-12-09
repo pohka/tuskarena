@@ -26,6 +26,5 @@ function item_refresher_custom:OnSpellStart()
 			item:EndCooldown()
 		end
 	end
-	
 end
 

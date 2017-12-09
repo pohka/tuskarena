@@ -25,8 +25,9 @@ function Activate()
 end
 
 function TuskArena:InitGameMode()
-	print( "Template addon is loaded." )
-	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
+	local GameMode = GameRules:GetGameModeEntity();
+	GameMode:SetThink( "OnThink", self, "GlobalThink", 2 )
+	
 	GameRules:SetPreGameTime( 45 ) --warm up
 	
 	if IsInToolsMode() then
