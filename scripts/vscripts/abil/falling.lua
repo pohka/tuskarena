@@ -1,4 +1,4 @@
---if the unit is still over the hole then activate fall physics
+--if the unit is still inside the trigger then cast it's fall ability
 function enter(trigger)
 	local unit = trigger.activator
 	if trigger.caller:IsTouching(unit) then
