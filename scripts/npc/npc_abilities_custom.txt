@@ -5,11 +5,33 @@
 
 	"fall_lua"
 	{
-		"BaseClass"				 "ability_lua"
-		"ScriptFile"			 "abil/fall"
+		"BaseClass"				 	"ability_lua"
+		"ScriptFile"			 	"abil/fall"
 		
-		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN"
-		"Level"                  "1"
-		"MaxLevel"               "1"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"Level"                  	"1"
+		"MaxLevel"               	"1"
+	}
+	
+	"crit_dagger_lua"
+	{
+		"BaseClass"				 	"ability_lua"
+		"ScriptFile"			 	"abil/crit_dagger"
+		
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_ALL"
+		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityTextureName" 		"phantom_assassin_stifling_dagger"
+		"Level"                 	"1"
+		"MaxLevel"               	"1"
+		
+		"AbilityType"            	"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityCastPoint"       	"0.0"
+		
+		"AbilityManaCost"         	"0"
+		"AbilityCooldown"         	"5"
+		"AbilityCastRange"        	"1000"
+		"AbilityCastAnimation"   	"ACT_DOTA_CAST_ABILITY_1"
+		"AnimationPlaybackRate"  	"1"
 	}
 }

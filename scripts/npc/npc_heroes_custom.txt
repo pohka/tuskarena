@@ -3,13 +3,39 @@
 // the specified key-value combinations.  Use override_hero <hero_to_override> for this.
 "DOTAHeroes"
 {
-	//=================================================================================================================
-	// HERO: Templar Assassin
-	//=================================================================================================================
-	"npc_dota_hero_templar_assassin_template"
+	"tusk"
 	{
-		"override_hero"				"npc_dota_hero_templar_assassin"			// Hero to override
-		"Ability1"					"templar_assassin_refraction_holdout"		// Ability 1
-		"VisionNighttimeRange"		"1800"										// Range of vision at night time.
+		"override_hero"				"npc_dota_hero_tusk"			// Hero to override
+		"Ability1"					"crit_dagger_lua"
+		"Ability2"					"tusk_snowball"
+		"Ability3"					"tusk_walrus_kick"
+		"Ability4"					"weaver_time_lapse"
+		
+		"MovementTurnRate"			"4.0"
+		"MovementSpeed"				"400"
+		"AttackCapabilities"    	"DOTA_UNIT_CAP_NO_ATTACK"
+		
+		"VisionDaytimeRange"		"800"
+		"VisionNighttimeRange"		"880"
+		
+		"StatusHealth"				"1"
+		"StatusHealthRegen"			"0"
+		"StatusMana"				"1"
+		"StatusManaRegen"			"0"
+		
+		// Stats
+		//--------------------------------------
+		"AttributeBaseStrength"		"0"
+		"AttributeStrengthGain"		"0"
+		"AttributeBaseIntelligence"	"0"
+		"AttributeIntelligenceGain"	"0"
+		"AttributeBaseAgility"		"0"
+		"AttributeAgilityGain"		"0"
+		"MagicalResistance"			"0"
+		"ArmorPhysical"				"0"
+		
+		"BountyXP"                  "0"     // Experience earn.
+	    "BountyGoldMin"             "0"     // Gold earned min.
+	    "BountyGoldMax"             "0"     // Gold earned max.
 	}
 }

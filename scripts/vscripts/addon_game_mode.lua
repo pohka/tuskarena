@@ -10,8 +10,12 @@ function Precache( context )
 			PrecacheResource( "model", "*.vmdl", context )
 			PrecacheResource( "soundfile", "*.vsndevts", context )
 			PrecacheResource( "particle", "*.vpcf", context )
+			PrecacheResource( "particle", "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/phantom_assassin_stifling_dagger_arcana.vpcf", context )
 			PrecacheResource( "particle_folder", "particles/folder", context )
 	]]
+	
+	PrecacheResource( "particle", "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/phantom_assassin_stifling_dagger_arcana.vpcf", context )
+			
 end
 
 -- Create the game mode when we activate
@@ -39,7 +43,7 @@ function TuskArena:InitGameMode()
 	GameRules:SetShowcaseTime(0)
 	GameRules:SetGoldPerTick(0)
 	
-	ListenToGameEvent("npc_spawned", TuskArena.AddExtraAbilities, self)
+	ListenToGameEvent("npc_spawned", TuskArena.EquipUnit, self)
 end
 
 -- Evaluate the state of the game
@@ -52,13 +56,24 @@ function TuskArena:OnThink()
 	return 1
 end
 
-function TuskArena:AddExtraAbilities(event)
+--equips the unit with their starting items and abilities
+function TuskArena:EquipUnit(event)
 	local spawnedUnit = EntIndexToHScript( event.entindex )
 	AddAbilityIfNotExist(spawnedUnit, "fall_lua")
+	AddItemIfNotExist(spawnedUnit, "item_blink")
+	AddItemIfNotExist(spawnedUnit, "item_refresher")
 end
 
+--adds an ability if the unit doesn't alreary have it
 function AddAbilityIfNotExist(unit, abilityName)
 	if unit:HasAbility(abilityName) == false then
 		unit:AddAbility(abilityName)
+	end
+end
+
+--adds an item if the unit doesn't alreary have it
+function AddItemIfNotExist(unit, itemName)
+	if unit:HasItemInInventory(itemName) == false then
+		unit:AddItemByName(itemName)
 	end
 end
