@@ -11,8 +11,8 @@ function item_blink_custom:OnSpellStart()
 	local direction = vDiff:Normalized()
 	local dist = vDiff:Length2D()
 	
-	local maxRange = 1200
-	local penalty = 960
+	local maxRange = self:GetSpecialValueFor("max_range")
+	local penalty = self:GetSpecialValueFor("penalty_range")
 	local newPos = target
 	if dist > maxRange then
 		newPos = caster:GetAbsOrigin() + (direction * Vector(penalty, penalty, penalty))

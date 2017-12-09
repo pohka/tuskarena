@@ -27,7 +27,7 @@ end
 function TuskArena:InitGameMode()
 	print( "Template addon is loaded." )
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
-	GameRules:SetPreGameTime( 4 )
+	GameRules:SetPreGameTime( 45 ) --warm up
 	
 	if IsInToolsMode() then
 		GameRules:SetCustomGameSetupAutoLaunchDelay( 0 )
@@ -37,13 +37,15 @@ function TuskArena:InitGameMode()
 	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 4 )
     GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 4 )
 	GameRules:SetPostGameTime(30)
-	GameRules:SetHeroSelectionTime(45)
+	GameRules:SetHeroSelectionTime(30)
 	GameRules:SetStartingGold(0)
 	GameRules:SetStrategyTime(0)
 	GameRules:SetShowcaseTime(0)
 	GameRules:SetGoldPerTick(0)
+	--GameRules:SetHeroRespawnEnabled(false)
 	
 	ListenToGameEvent("npc_spawned", TuskArena.EquipUnit, self)
+	ListenToGameEvent("game_rules_state_change", TuskArena.OnGameStateChange, self)
 end
 
 -- Evaluate the state of the game
@@ -75,5 +77,32 @@ end
 function AddItemIfNotExist(unit, itemName)
 	if unit:HasItemInInventory(itemName) == false then
 		unit:AddItemByName(itemName)
+	end
+end
+
+--called when the game state changes
+function TuskArena:OnGameStateChange()
+	if GameRules:State_Get() == DOTA_GAMERULES_STATE_STRATEGY_TIME then
+		RandomHeroes()
+	end
+end
+
+--randoms the heroes for every player who hasn't picked
+function RandomHeroes()
+	local minTeam = DOTA_TEAM_GOODGUYS
+	local maxTeam = DOTA_TEAM_BADGUYS
+	local maxPayersPerTeam = 5
+	for teamNum = minTeam, maxTeam do
+		for i=1, maxPayersPerTeam do
+			local playerID = PlayerResource:GetNthPlayerIDOnTeam(teamNum, i)
+			if playerID ~= nil then
+				if PlayerResource:HasSelectedHero(playerID) == false then
+					local hPlayer = PlayerResource:GetPlayer(playerID)
+					if hPlayer ~= nil then
+						hPlayer:MakeRandomHeroSelection()
+					end
+				end
+			end
+		end
 	end
 end

@@ -9,7 +9,7 @@ function crit_dagger_lua:OnSpellStart()
 		Source = caster,
 		Ability = self,	
 		EffectName = "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/phantom_assassin_stifling_dagger_arcana.vpcf",
-			iMoveSpeed = 1000,
+			iMoveSpeed = self:GetSpecialValueFor("speed"),
 		vSourceLoc= caster:GetAbsOrigin(),                -- Optional (HOW)
 		bDrawsOnMinimap = false,                          -- Optional
 			bDodgeable = true,                                -- Optional
