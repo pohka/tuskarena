@@ -1,0 +1,6 @@
+maps/
+materials/
+particles/
+resources/
+*.bin
+*.lnk
