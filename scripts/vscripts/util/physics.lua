@@ -21,7 +21,7 @@ end
 --speed is in units per second 
 function Physics:MoveWithContantVelocity(unit, ability, direction, distance, speed, callback)
 	if IsServer() then
-		local travelTime = distance/speed
+		local travelTime = (distance/speed)
 		local params = {["direction"] = direction, ["distance"] = distance, ["speed"] = speed}
 		self:Move(unit, ability, travelTime, params, 
 			function(params)
@@ -36,11 +36,12 @@ function Physics:Move(unit, ability, travelTime, params, func, callback)
 	if IsServer() then
 		ability:SetContextThink("Tick", 
 		function() 
-			local nextOrigin = GetGroundPosition(unit:GetOrigin() + func(params), unit)
-			unit:SetOrigin(nextOrigin)
-			
 			travelTime = travelTime - TICK_RATE
 			if travelTime > 0 then
+				local nextOrigin = GetGroundPosition(unit:GetOrigin() + func(params), unit)
+				unit:SetOrigin(nextOrigin)
+			end
+			if travelTime > -0.05 then
 				return TICK_RATE
 				
 			--end of thinker
@@ -103,6 +104,9 @@ function Physics:MoveToWithArc(unit, ability, destination, height, apexPercent, 
 				local curveH = (math.sin(zWeight* 0.5 * math.pi))*height
 				local finalZ = curveH + naturalSlope
 				unit:SetOrigin(unit:GetOrigin() + Vector(0,0,finalZ))
+			end
+			
+			if percent < 1.19 then
 				return TICK_RATE
 			else
 				FindClearSpaceForUnit(unit, destination, true)
