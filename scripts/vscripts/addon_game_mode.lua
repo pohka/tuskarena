@@ -92,6 +92,7 @@ function TuskArena:OnGameStateChange()
 	end
 end
 
+--levels up all abilities on this unit to level 1
 function TuskArena:LevelAllAbilities(unit)
 	for i=0, unit:GetAbilityCount()-1 do
 		local abil = unit:GetAbilityByIndex(i)

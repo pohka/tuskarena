@@ -9,6 +9,7 @@
 		"ScriptFile"			 	"abil/fall"
 		
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityTextureName"        "monkas"
 		"Level"                  	"1"
 		"MaxLevel"               	"1"
 	}
@@ -179,7 +180,7 @@
 		"Level"                 	"1"
 		"MaxLevel"               	"1"
 		
-		"AbilityType"            	"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityType"            	"DOTA_ABILITY_TYPE_ULTIMATE"
 		"AbilityCastPoint"       	"0.0"
 		
 		"AbilityManaCost"         	"0"
@@ -188,5 +189,19 @@
 		"AbilityCastPoint" 			"0.3"
 		"AbilityCastAnimation"   	"ACT_DOTA_CAST_ABILITY_4"
 		"AnimationPlaybackRate"  	"1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"reverse_time"		"3"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"tick_rate"			"0.1"
+			}
+		}
 	}
 }
