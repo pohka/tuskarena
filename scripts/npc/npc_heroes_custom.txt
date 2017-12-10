@@ -8,7 +8,7 @@
 		"override_hero"				"npc_dota_hero_tusk"			// Hero to override
 		"Ability1"					"crit_dagger_lua"
 		"Ability2"					"snowball"
-		"Ability3"					"tusk_walrus_kick"
+		"Ability3"					"walrus_kick"
 		"Ability4"					"weaver_time_lapse"
 		
 		"MovementTurnRate"			"4.0"

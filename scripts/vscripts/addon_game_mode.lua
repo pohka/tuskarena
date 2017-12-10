@@ -4,6 +4,8 @@ if TuskArena == nil then
 	TuskArena = class({})
 end
 
+require('util/physics')
+
 function Precache( context )
 	--[[
 		Precache things we know we'll use.  Possible file types include (but not limited to):
