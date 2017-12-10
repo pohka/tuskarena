@@ -68,6 +68,7 @@ function TuskArena:EquipUnit(event)
 	AddAbilityIfNotExist(spawnedUnit, "fall_lua")
 	AddItemIfNotExist(spawnedUnit, "item_blink_custom")
 	AddItemIfNotExist(spawnedUnit, "item_refresher_custom")
+	TuskArena:LevelAllAbilities(spawnedUnit)
 end
 
 --adds an ability if the unit doesn't alreary have it
@@ -88,6 +89,15 @@ end
 function TuskArena:OnGameStateChange()
 	if GameRules:State_Get() == DOTA_GAMERULES_STATE_STRATEGY_TIME then
 		RandomHeroes()
+	end
+end
+
+function TuskArena:LevelAllAbilities(unit)
+	for i=0, unit:GetAbilityCount()-1 do
+		local abil = unit:GetAbilityByIndex(i)
+		if abil ~= nil then
+			abil:SetLevel(1)
+		end
 	end
 end
 

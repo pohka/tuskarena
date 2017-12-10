@@ -1,7 +1,7 @@
 walrus_kick = class({})
 LinkLuaModifier( "walrus_kick_modifier", "abil/walrus_kick_modifier", LUA_MODIFIER_MOTION_NONE )
 
-
+--walrus kick using custom physics
 function walrus_kick:OnSpellStart()
 	local caster = self:GetCaster()
 	local target = self:GetCursorTarget()
@@ -11,7 +11,7 @@ function walrus_kick:OnSpellStart()
 	local height = self:GetSpecialValueFor("height")
 	local travelTime = dist/speed
 	local direction = (target:GetAbsOrigin() - caster:GetAbsOrigin()):Normalized()
-	local dest = target:GetAbsOrigin() + direction * 800
+	local dest = target:GetAbsOrigin() + direction * dist
 	
 	
 	target:SetMoveCapability(DOTA_UNIT_CAP_MOVE_NONE)

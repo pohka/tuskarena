@@ -9,7 +9,7 @@
 		"Ability1"					"crit_dagger_lua"
 		"Ability2"					"snowball"
 		"Ability3"					"walrus_kick"
-		"Ability4"					"weaver_time_lapse"
+		"Ability4"					"time_lapse"
 		"Ability5"					""
 		"Ability6"					""
 		"Ability7"					""

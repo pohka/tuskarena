@@ -36,11 +36,8 @@ function Physics:Move(unit, ability, travelTime, params, func, callback)
 	if IsServer() then
 		ability:SetContextThink("Tick", 
 		function() 
-			FindClearSpaceForUnit(
-				unit, 
-				unit:GetAbsOrigin() + 
-				func(params),
-				false)
+			local nextOrigin = GetGroundPosition(unit:GetOrigin() + func(params), unit)
+			unit:SetOrigin(nextOrigin)
 			
 			travelTime = travelTime - TICK_RATE
 			if travelTime > 0 then
