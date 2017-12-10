@@ -68,6 +68,7 @@ function Physics:MoveToWithArc(unit, ability, destination, height, apexPercent, 
 		local startTime = Time()
 		local startGroundHeight = GetGroundHeight(startPt, unit)
 		local heightDiff = GetGroundHeight(destination, unit) - startGroundHeight
+		
 		local endFlag = false
 		
 		if apexPercent > 1 then 
@@ -87,7 +88,7 @@ function Physics:MoveToWithArc(unit, ability, destination, height, apexPercent, 
 				
 				
 			--calculate and set the z-axis
-			if percent < 1.1 then
+			if percent < 1.15 then
 			
 				--zWeight will be between 0 and apexPercent
 				local zWeight = 0 
