@@ -141,7 +141,7 @@
 		"AbilityCooldown"         	"5"
 		"AbilityCastRange"        	"150"
 		"AbilityCastAnimation"   	"ACT_DOTA_CAST_ABILITY_5"
-		"AnimationPlaybackRate"  	"1"
+		"AnimationPlaybackRate"  	"1.4"
 		
 		"AbilitySpecial"
 		{

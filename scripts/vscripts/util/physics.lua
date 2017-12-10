@@ -20,88 +20,93 @@ end
 --distance is the total travel distance along the direction vector
 --speed is in units per second 
 function Physics:MoveWithContantVelocity(unit, ability, direction, distance, speed, callback)
-	local travelTime = distance/speed
-	
-	local params = {["direction"] = direction, ["distance"] = distance, ["speed"] = speed}
-	self:Move(unit, ability, travelTime, params, 
-		function(params)
-			return Physics:ConstantVelocity(params["direction"], params["distance"], params["speed"]) 
-		end,
-		callback)
+	if IsServer() then
+		local travelTime = distance/speed
+		local params = {["direction"] = direction, ["distance"] = distance, ["speed"] = speed}
+		self:Move(unit, ability, travelTime, params, 
+			function(params)
+				return Physics:ConstantVelocity(params["direction"], params["distance"], params["speed"]) 
+			end,
+			callback)
+	end
 end
 
 --moves a unit each tick with a function and its params
 function Physics:Move(unit, ability, travelTime, params, func, callback)
-	ability:SetContextThink("Tick", 
-	function() 
-		FindClearSpaceForUnit(
-			unit, 
-			unit:GetAbsOrigin() + 
-			func(params),
-			false)
-		
-		travelTime = travelTime - TICK_RATE
-		if travelTime > 0 then
-			return TICK_RATE
+	if IsServer() then
+		ability:SetContextThink("Tick", 
+		function() 
+			FindClearSpaceForUnit(
+				unit, 
+				unit:GetAbsOrigin() + 
+				func(params),
+				false)
 			
-		--end of thinker
-		else
-			FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), true)
-			if callback ~= nil then
-				callback()
+			travelTime = travelTime - TICK_RATE
+			if travelTime > 0 then
+				return TICK_RATE
+				
+			--end of thinker
+			else
+				FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), true)
+				if callback ~= nil then
+					callback()
+				end
 			end
-		end
-	end, TICK_RATE)
+		end, TICK_RATE)
+	end
 end
 
-function Physics:MoveToWithArc(unit, ability, destination, height, travelTime, callback)
-	local startPt = unit:GetAbsOrigin()
-	local endPt = destination
-	local dist = (endPt - startPt):Length2D()
-	local direction = (endPt - startPt):Normalized()
-	direction.z = 0
-	local startTime = Time()
-	
-	
-	ability:SetContextThink("Tick", 
-	function() 
-	
-	
-		local percent = (Time() - startTime) / travelTime
+--move a unit along an arc from their current position to the destination
+--the apex height with be reached at the apexPercent [0-1] value 
+function Physics:MoveToWithArc(unit, ability, destination, height, apexPercent, travelTime, callback)
+	if IsServer() then
+		destination = GetGroundPosition(destination, unit)
+		local startPt = unit:GetAbsOrigin()
+		local vDiff = destination - startPt
+		local dist = vDiff:Length2D()
+		local startTime = Time()
+		local startGroundHeight = GetGroundHeight(startPt, unit)
+		local heightDiff = GetGroundHeight(destination, unit) - startGroundHeight
 		
-		FindClearSpaceForUnit(
-			unit, 
-			unit:GetAbsOrigin() + ((direction * dist)*TICK_RATE),
-			false)
+		ability:SetContextThink("Tick", 
+		function() 
+			local percent = (Time() - startTime) / travelTime
 			
+			--move unit on x and y axis
+			-- FindClearSpaceForUnit(
+				-- unit, 
+				-- unit:GetOrigin() + ((vDiff / travelTime) *TICK_RATE),
+				-- false)
+			local inc = Vector(vDiff.x, vDiff.y,0)
+			local nextPos = unit:GetAbsOrigin() + ((inc / travelTime) *TICK_RATE)
+			nextPos.z = startGroundHeight
+			unit:SetAbsOrigin(nextPos)
+				
 			
-		if percent < 1 then
-			local apexPercent = 0.5 --apex of jump
+			--calculate and set the z-axis
+			if percent < 1 then
+				--calculate height z-axis for curve on jump
+				local zWeight = 0 
+				
+				--moving up on the z-axis before reaching apex
+				if percent < apexPercent then
+					zWeight = height * percent
+				else 
+					--zWeight = downIncrementSpeed
+					zWeight = height - ((percent-apexPercent)/(1-apexPercent))*height
+				end
+				
+				unit:SetOrigin(unit:GetOrigin() + Vector(0,0,(zWeight*2) + (heightDiff*percent)))
+				return TICK_RATE
 			
-			--calculate height z-axis for curve on jump
-			local zWeight = 0 
-			
-			--moving up on the z-axis before reaching apex
-			if percent < apexPercent then
-				zWeight = height * percent
-			else 
-				--zWeight = downIncrementSpeed
-				zWeight = height - ((percent-apexPercent)/(1-apexPercent))*height
+			--end of thinker
+			else
+				FindClearSpaceForUnit(unit, destination, true)
+				if callback ~= nil then
+					callback()
+				end
 			end
-			
-			unit:SetOrigin(unit:GetOrigin() + Vector(0,0,zWeight*2))
-			
-			print("percent:" .. tostring(zWeight))
-			
-			return TICK_RATE
-		end
-		
-		--end of tinker
-		if Time() - startTime > travelTime then
-			FindClearSpaceForUnit(unit, endPt, true)
-			if callback ~= nil then
-				callback()
-			end
-		end
-	end, TICK_RATE)
+		end, TICK_RATE)
+	end
 end
