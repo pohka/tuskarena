@@ -19,18 +19,19 @@ end
 --direction Vector doesn't have to be normalized 
 --distance is the total travel distance along the direction vector
 --speed is in units per second 
-function Physics:MoveWithContantVelocity(unit, ability, disableMovement, direction, distance, speed)
+function Physics:MoveWithContantVelocity(unit, ability, direction, distance, speed, callback)
 	local travelTime = distance/speed
 	
 	local params = {["direction"] = direction, ["distance"] = distance, ["speed"] = speed}
-	self:Move(unit, ability, disableMovement, travelTime, params, 
+	self:Move(unit, ability, travelTime, params, 
 		function(params)
 			return Physics:ConstantVelocity(params["direction"], params["distance"], params["speed"]) 
-		end)
+		end,
+		callback)
 end
 
 --moves a unit each tick with a function and its params
-function Physics:Move(unit, ability, disableMovement, travelTime, params, func)
+function Physics:Move(unit, ability, travelTime, params, func, callback)
 	ability:SetContextThink("Tick", 
 	function() 
 		FindClearSpaceForUnit(
@@ -38,10 +39,6 @@ function Physics:Move(unit, ability, disableMovement, travelTime, params, func)
 			unit:GetAbsOrigin() + 
 			func(params),
 			false)
-			
-		if disableMovement == true then
-			unit:SetMoveCapability(DOTA_UNIT_CAP_MOVE_NONE)
-		end
 		
 		travelTime = travelTime - TICK_RATE
 		if travelTime > 0 then
@@ -50,8 +47,8 @@ function Physics:Move(unit, ability, disableMovement, travelTime, params, func)
 		--end of thinker
 		else
 			FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), true)
-			if disableMovement == true then
-				unit:SetMoveCapability(DOTA_UNIT_CAP_MOVE_GROUND)
+			if callback ~= nil then
+				callback()
 			end
 		end
 	end, TICK_RATE)

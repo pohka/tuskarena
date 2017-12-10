@@ -3,7 +3,13 @@ LinkLuaModifier( "walrus_kick_modifier", "abil/walrus_kick_modifier", LUA_MODIFI
 
 
 function walrus_kick:OnSpellStart()
-	Physics:ConstantVelocity()
 	local caster = self:GetCaster()
-	caster:AddNewModifier( caster, self, "walrus_kick_modifier", { duration = travelTime } )
+	local target = self:GetCursorTarget()
+	local speed = self:GetSpecialValueFor("speed")
+	local dist = self:GetSpecialValueFor("distance")
+	local travelTime = dist/speed
+	
+	Physics:MoveWithArc(unit, ability, disableMovement, direction, distance, speed)
+	
+	caster:AddNewModifier( target, self, "walrus_kick_modifier", { duration = travelTime } )
 end
