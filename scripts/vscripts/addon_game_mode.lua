@@ -50,6 +50,7 @@ function TuskArena:InitGameMode()
 	
 	ListenToGameEvent("npc_spawned", TuskArena.EquipUnit, self)
 	ListenToGameEvent("game_rules_state_change", TuskArena.OnGameStateChange, self)
+	ListenToGameEvent("entity_killed", TuskArena.OnEntityKilled, self)
 end
 
 -- Evaluate the state of the game
@@ -99,6 +100,15 @@ function TuskArena:LevelAllAbilities(unit)
 		if abil ~= nil then
 			abil:SetLevel(1)
 		end
+	end
+end
+
+function TuskArena:OnEntityKilled(event)
+	local ent = EntIndexToHScript(event.entindex_killed)
+	--SetRespawnPosition(vector)
+	--SetRespawnsDisabled()
+	if ent:IsHero() then
+		ent:SetTimeUntilRespawn(2)
 	end
 end
 
