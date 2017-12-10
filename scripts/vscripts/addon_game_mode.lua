@@ -45,6 +45,7 @@ function TuskArena:InitGameMode()
 	GameRules:SetStrategyTime(0)
 	GameRules:SetShowcaseTime(0)
 	GameRules:SetGoldPerTick(0)
+	GameRules:SetSameHeroSelectionEnabled(true)
 	GameMode:SetDaynightCycleDisabled(true)
 	--GameRules:SetHeroRespawnEnabled(false)
 	
