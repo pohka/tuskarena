@@ -57,7 +57,7 @@ function Physics:Move(unit, ability, travelTime, params, func, callback)
 	end
 end
 
---move a unit along an arc from their current position to the destination
+--interpolates a unit along an arc from their current position to the destination
 --the apex height with be reached at the apexPercent [0-1] value 
 function Physics:MoveToWithArc(unit, ability, destination, height, apexPercent, travelTime, callback)
 	if IsServer() then
@@ -68,45 +68,51 @@ function Physics:MoveToWithArc(unit, ability, destination, height, apexPercent, 
 		local startTime = Time()
 		local startGroundHeight = GetGroundHeight(startPt, unit)
 		local heightDiff = GetGroundHeight(destination, unit) - startGroundHeight
+		local endFlag = false
+		
+		if apexPercent > 1 then 
+			apexPercent = 0.5
+		end
 		
 		ability:SetContextThink("Tick", 
 		function() 
 			local percent = (Time() - startTime) / travelTime
 			
-			--move unit on x and y axis
-			-- FindClearSpaceForUnit(
-				-- unit, 
-				-- unit:GetOrigin() + ((vDiff / travelTime) *TICK_RATE),
-				-- false)
 			local inc = Vector(vDiff.x, vDiff.y,0)
 			local nextPos = unit:GetAbsOrigin() + ((inc / travelTime) *TICK_RATE)
 			nextPos.z = startGroundHeight
 			unit:SetAbsOrigin(nextPos)
-				
 			
+			--end of thinker
+				
+				
 			--calculate and set the z-axis
-			if percent < 1 then
-				--calculate height z-axis for curve on jump
+			if percent < 1.1 then
+			
+				--zWeight will be between 0 and apexPercent
 				local zWeight = 0 
 				
 				--moving up on the z-axis before reaching apex
 				if percent < apexPercent then
-					zWeight = height * percent
+					zWeight = percent/apexPercent
 				else 
 					--zWeight = downIncrementSpeed
-					zWeight = height - ((percent-apexPercent)/(1-apexPercent))*height
+					zWeight = 1-((percent-apexPercent)/(1-apexPercent))
 				end
 				
-				unit:SetOrigin(unit:GetOrigin() + Vector(0,0,(zWeight*2) + (heightDiff*percent)))
+				--slope between start and end point
+				local naturalSlope = heightDiff*percent
+				local curveH = (math.sin(zWeight* 0.5 * math.pi))*height
+				local finalZ = curveH + naturalSlope
+				unit:SetOrigin(unit:GetOrigin() + Vector(0,0,finalZ))
 				return TICK_RATE
-			
-			--end of thinker
 			else
 				FindClearSpaceForUnit(unit, destination, true)
 				if callback ~= nil then
 					callback()
 				end
 			end
+			
 		end, TICK_RATE)
 	end
 end
