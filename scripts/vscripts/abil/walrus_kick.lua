@@ -14,6 +14,7 @@ function walrus_kick:OnSpellStart()
 	local dest = target:GetAbsOrigin() + direction * dist
 	
 	
+	
 	target:SetMoveCapability(DOTA_UNIT_CAP_MOVE_NONE)
 	target:StartGestureWithPlaybackRate(ACT_DOTA_FLAIL, 1.5)
 	target:SetForwardVector(direction)

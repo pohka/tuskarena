@@ -32,7 +32,7 @@ function Physics:MoveWithContantVelocity(unit, ability, direction, distance, spe
 end
 
 --moves a unit each tick with a function and its params
-function Physics:Move(unit, ability, travelTime, params, func, callback)
+function Physics:Move(unit, ability, travelTime, params,  func, callback)
 	if IsServer() then
 		ability:SetContextThink("Tick", 
 		function() 

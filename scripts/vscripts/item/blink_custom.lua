@@ -18,6 +18,7 @@ function item_blink_custom:OnSpellStart()
 		newPos = caster:GetAbsOrigin() + (direction * Vector(penalty, penalty, penalty))
 	end
 	
+	ProjectileManager:ProjectileDodge(caster)
 	caster:Purge(false, true, false, true, true)
 	FindClearSpaceForUnit(caster, newPos, true)
 end

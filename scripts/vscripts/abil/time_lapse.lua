@@ -11,6 +11,7 @@ end
 
 function time_lapse:OnSpellStart()
 	local caster = self:GetCaster()
+	ProjectileManager:ProjectileDodge(caster)
 	FindClearSpaceForUnit(caster, time_lapse.positions[caster:entindex()][1], true)
 	caster:Purge(false, true, false, true, true)
 end

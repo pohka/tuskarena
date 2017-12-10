@@ -8,9 +8,3 @@ function snowball_modifier:CheckState()
  
 	return states
 end
-
-function snowball_modifier:OnCreated()
-	if IsServer() then
-		
-	end
-end

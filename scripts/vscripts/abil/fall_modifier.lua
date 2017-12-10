@@ -22,7 +22,7 @@ function fall_modifier:OnIntervalThink()
 		local interval = 0.03
 		
 		--once the unit fall this many units they die
-		local distToFall = 600 
+		local distToFall = 1000
 		
 		--speed of falling
 		local fallSpeed = 30
@@ -48,7 +48,13 @@ function fall_modifier:OnIntervalThink()
 			caster:SetMoveCapability(DOTA_UNIT_CAP_MOVE_GROUND)
 			caster:RemoveGesture(ACT_DOTA_FLAIL)
 			
-			caster:ForceKill(false)
+			--kill player basic
+			local playerID = PlayerResource:GetNthPlayerIDOnTeam(3,1)
+			if caster:GetTeamNumber() == 3 then
+				playerID  = PlayerResource:GetNthPlayerIDOnTeam(2,1)
+			end
+			local attacker = PlayerResource:GetPlayer(playerID):GetAssignedHero()
+			caster:Kill(nil, attacker)
 		end
 	end
 end

@@ -10,12 +10,12 @@ function Precache( context )
 	--[[
 		Precache things we know we'll use.  Possible file types include (but not limited to):
 			PrecacheResource( "model", "*.vmdl", context )
+			
 			PrecacheResource( "soundfile", "*.vsndevts", context )
 			PrecacheResource( "particle", "*.vpcf", context )
 			PrecacheResource( "particle", "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/phantom_assassin_stifling_dagger_arcana.vpcf", context )
 			PrecacheResource( "particle_folder", "particles/folder", context )
 	]]
-	
 	PrecacheResource( "particle", "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/phantom_assassin_stifling_dagger_arcana.vpcf", context )
 			
 end
@@ -70,6 +70,7 @@ function TuskArena:EquipUnit(event)
 	AddItemIfNotExist(spawnedUnit, "item_blink_custom")
 	AddItemIfNotExist(spawnedUnit, "item_refresher_custom")
 	TuskArena:LevelAllAbilities(spawnedUnit)
+	ProjectileManager:ProjectileDodge(spawnedUnit)
 end
 
 --adds an ability if the unit doesn't alreary have it
@@ -109,6 +110,13 @@ function TuskArena:OnEntityKilled(event)
 	--SetRespawnsDisabled()
 	if ent:IsHero() then
 		ent:SetTimeUntilRespawn(2)
+	end
+	
+	local totalKills = 25
+	for i = DOTA_TEAM_GOODGUYS, DOTA_TEAM_BADGUYS do
+		if PlayerResource:GetTeamKills(i) >= totalKills then
+			GameRules:SetGameWinner(i)
+		end
 	end
 end
 

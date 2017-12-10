@@ -16,7 +16,7 @@ function crit_dagger_lua:OnSpellStart()
 			bIsAttack = false,                                -- Optional
 			bVisibleToEnemies = true,                         -- Optional
 			bReplaceExisting = false,                         -- Optional
-			flExpireTime = GameRules:GetGameTime() + 10,      -- Optional but recommended
+			flExpireTime = GameRules:GetGameTime() + 5,      -- Optional but recommended
 		bProvidesVision = true,                           -- Optional
 		iVisionRadius = 100,                              -- Optional
 		iVisionTeamNumber = caster:GetTeamNumber()        -- Optional

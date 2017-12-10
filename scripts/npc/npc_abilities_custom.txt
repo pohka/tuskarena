@@ -81,8 +81,8 @@
 		
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		
-		"AbilityCooldown"               "195"
-        "AbilityManaCost"               "1"
+		"AbilityCooldown"               "30"
+        "AbilityManaCost"               "0"
 	}
 	
 	"snowball"
@@ -106,6 +106,13 @@
 		"AbilityCastRange"        	"1200"
 		"AbilityCastAnimation"   	"ACT_DOTA_CAST_ABILITY_2"
 		"AnimationPlaybackRate"  	"1"
+		
+		"precache"
+		{
+			"particle" 				"particles/units/heroes/hero_tusk/tusk_snowball_destroy.vpcf"
+			"model"					"models/particle/snowball.vmdl"
+			"model"					"models/heroes/tuskarr/tuskarr.vmdl"
+		}
 		
 		"AbilitySpecial"
 		{
