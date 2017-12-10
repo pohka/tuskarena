@@ -10,6 +10,7 @@ function snowball:OnSpellStart()
 	local direction = target - caster:GetAbsOrigin()
 	
 	caster:SetMoveCapability(DOTA_UNIT_CAP_MOVE_NONE)
+	caster:StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.5)
 	Physics:MoveWithContantVelocity(caster, self, direction, dist, speed, function() self:OnMoveEnd() end)
 	
 	--add modifier to mute and make the caster invulnerable
@@ -19,4 +20,5 @@ end
 --callback function for the end of movement
 function snowball:OnMoveEnd()
 	self:GetCaster():SetMoveCapability(DOTA_UNIT_CAP_MOVE_GROUND)
+	self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_2)
 end

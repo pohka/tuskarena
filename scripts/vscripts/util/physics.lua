@@ -53,3 +53,55 @@ function Physics:Move(unit, ability, travelTime, params, func, callback)
 		end
 	end, TICK_RATE)
 end
+
+function Physics:MoveToWithArc(unit, ability, destination, height, travelTime, callback)
+	local startPt = unit:GetAbsOrigin()
+	local endPt = destination
+	local dist = (endPt - startPt):Length2D()
+	local direction = (endPt - startPt):Normalized()
+	direction.z = 0
+	local startTime = Time()
+	
+	
+	ability:SetContextThink("Tick", 
+	function() 
+	
+	
+		local percent = (Time() - startTime) / travelTime
+		
+		FindClearSpaceForUnit(
+			unit, 
+			unit:GetAbsOrigin() + ((direction * dist)*TICK_RATE),
+			false)
+			
+			
+		if percent < 1 then
+			local apexPercent = 0.5 --apex of jump
+			
+			--calculate height z-axis for curve on jump
+			local zWeight = 0 
+			
+			--moving up on the z-axis before reaching apex
+			if percent < apexPercent then
+				zWeight = height * percent
+			else 
+				--zWeight = downIncrementSpeed
+				zWeight = height - ((percent-apexPercent)/(1-apexPercent))*height
+			end
+			
+			unit:SetOrigin(unit:GetOrigin() + Vector(0,0,zWeight*2))
+			
+			print("percent:" .. tostring(zWeight))
+			
+			return TICK_RATE
+		end
+		
+		--end of tinker
+		if Time() - startTime > travelTime then
+			FindClearSpaceForUnit(unit, endPt, true)
+			if callback ~= nil then
+				callback()
+			end
+		end
+	end, TICK_RATE)
+end
