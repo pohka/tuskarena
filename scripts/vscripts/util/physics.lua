@@ -21,11 +21,22 @@ end
 --speed is in units per second 
 function Physics:MoveWithContantVelocity(unit, ability, direction, distance, speed)
 	local travelTime = distance/speed
+	
+	local params = {["direction"] = direction, ["distance"] = distance, ["speed"] = speed}
+	self:Move(unit, ability, travelTime, params, 
+		function(params)
+			return Physics:ConstantVelocity(params["direction"], params["distance"], params["speed"]) 
+		end)
+end
+
+--moves a unit each tick with a function and its params
+function Physics:Move(unit, ability, travelTime, params, func)
 	ability:SetContextThink("Tick", 
 	function() 
 		FindClearSpaceForUnit(
 			unit, 
-			unit:GetAbsOrigin() + self:ConstantVelocity(direction, distance, speed),
+			unit:GetAbsOrigin() + 
+			func(params),
 			false)
 		travelTime = travelTime - TICK_RATE
 		if travelTime > 0 then
